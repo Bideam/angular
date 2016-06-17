@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html ng-app='myapp'>
+<head>
+	<meta charset="utf-8">
+	<title>angular尝试</title>
+	<script type="text/javascript" src="angular.min.js"></script>
+</head>
+<style type="text/css">
+	.show-hide{
+		width: 400px;
+		height: 400px;
+		background-color: green;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-top: -200px;
+		margin-left: -200px;
+	}
+</style>
+<script type="text/javascript">
+	var myappmoudle=angular.module('myapp',[]);
+	var items=[{title:"first",cash:"inster"},{title:"second",cash:"boring"},{title:"third",cash:"facret"}];
+	var sometext={};
+	sometext.text="this is angluar world";
+	sometext.message='the filter of the first alphabet';
+	myappmoudle.controller('textController',function($scope){
+		
+		
+		$scope.sometext=sometext;
+		$scope.items=items;
+		$scope.isshow=false;
+		$scope.showhide=function(){
+			$scope.isshow=!$scope.isshow;
+			if($scope.isshow){
+				$scope.showhide="div show";
+		
+			}
+			else{
+				$scope.showhide="div hide";
+	
+			}
+		}
+	
+	});
+	
+	myappmoudle.filter('Upcase',function(){
+		var uppter=function(input){
+			var words=input.split(' ');
+			for (var i = 0; i < words.length; i++) {
+				words[i]=words[i].charAt(0).toUpperCase()+words[i].slice(1);
+			}
+			return words.join(' ');
+		};
+		return uppter;
+	});
+
+</script>
+<body ng-controller='textController'>
+	<p >{{sometext.text}}</p>
+	<div ng-repeat="item in items">
+		<span>{{item.title}}</span>
+		<span>{{item.cash}}</span>
+	</div>
+	<input type="button" ng-click='showhide()' value="trigle"></input>
+	<div class="show-hide"  ng-show="isshow">
+		
+	</div>
+	<span>{{showhide}}</span>
+
+
+	<div >
+		使用过滤器：{{sometext.message|Upcase}}
+	</div>
+</body>
+</html>
